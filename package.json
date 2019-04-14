@@ -1,0 +1,19 @@
+{
+  "name": "bloccit",
+  "version": "1.0.0",
+  "description": "A reddit-like application for users to discuss and share content",
+  "main": "d\u001b[C\u001b[C\u001b[Csrc/server.js)",
+  "scripts": {
+    "test": "export NODE_ENV=test && jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryandiercks/bloccit.git"
+  },
+  "author": "Ryan Diercks",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ryandiercks/bloccit/issues"
+  },
+  "homepage": "https://github.com/ryandiercks/bloccit#readme"
+}
