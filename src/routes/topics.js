@@ -1,19 +1,15 @@
-'use strict';
-module.exports = (sequelize, DataTypes) => {
-  var Topic = sequelize.define('Topic', {
-    title: DataTypes.STRING,
-    description: DataTypes.STRING
-  }, {});
-  Topic.associate = function(models) {
-    // associations can be defined here
-    Topic.hasMany(models.Banner, {
-      foreignKey: "topicId",
-      as: "banners",
-    }),
-    Topic.hasMany(models.Banner, {
-      foreignKey: "topicId",
-      as: "rules",
-    });
-  };
-  return Topic;
-};
+const express = require("express");
+const router = express.Router();
+
+const topicController = require("../controllers/topicController")
+
+router.get("/topics", topicController.index);
+router.get("/topics/new", topicController.new);
+router.get("/topics/:id", topicController.show);
+router.get("/topics/:id/edit", topicController.edit);
+
+router.post("/topics/create", topicController.create);
+router.post("/topics/:id/update", topicController.update);
+router.post("/topics/:id/destroy", topicController.destroy);
+
+module.exports = router;
