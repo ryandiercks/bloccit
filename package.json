@@ -1,10 +1,10 @@
 {
-  "name": "bloccit",
+  "name": "bloccit-sub",
   "version": "1.0.0",
   "description": "A Reddit-like application for users to discuss and share content",
-  "main": "(src/server.js)",
+  "main": "src/server.js",
   "scripts": {
-    "test": "set NODE_ENV=test&& jasmine",
+    "test": "set NODE_ENV=test && jasmine",
     "start": "node src/server.js"
   },
   "author": "",
@@ -15,12 +15,14 @@
     "request": "^2.83.0"
   },
   "dependencies": {
-    "body-parser": "^1.18.2",
+    "body-parser": "^1.18.3",
     "dotenv": "^5.0.0",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
-    "pg": "^7.4.1",
+    "mysql": "^2.16.0",
+    "pg": "^7.4.3",
     "pg-hstore": "^2.3.2",
-    "sequelize": "^4.32.6"
+    "sequelize": "^4.38.0",
+    "sequelize-cli": "^4.0.0"
   }
 }
