@@ -24,6 +24,7 @@
     "pg": "^7.4.3",
     "pg-hstore": "^2.3.2",
     "promise": "^8.0.3",
+    "promises": "^0.2.5",
     "sequelize": "^4.38.0",
     "sequelize-cli": "^5.4.0"
   }
