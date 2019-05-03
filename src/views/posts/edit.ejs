@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <% include ../static/partials/head.ejs %>
   </head>
   <body>
     <% include ../static/partials/navbar.ejs %>
-
     <main class="container">
+
+      <% include ../static/partials/messages.ejs %>
 
       <h1>Edit Post</h1>
 
@@ -22,8 +23,6 @@
         <button type="submit" class="btn btn-primary">Update</button>
       </form>
     </main>
-
     <% include ../static/partials/baseScripts.ejs %>
-
   </body>
 </html>

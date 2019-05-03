@@ -4,13 +4,12 @@
       <% include ./partials/head.ejs %>
   </head>
   <body>
-      <!-- Navigation -->
+
       <% include ./partials/navbar.ejs %>
 
-      <!-- Page Content -->
       <main class="container">
 
-        <!-- Jumbotron Header -->
+        <% include ../static/partials/messages.ejs %>
         <header class="jumbotron my-4">
           <h1 class="display-3">Welcome to Bloccit</h1>
           <p class="lead">An application for users to share information.</p>
@@ -36,10 +35,8 @@
           </section>
 
         </section>
-        <!-- /.row -->
 
       </main>
-      <!-- /.container -->
       <% include ./partials/baseScripts.ejs %>
     </body>
 </html>
