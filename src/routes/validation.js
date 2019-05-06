@@ -32,8 +32,8 @@ module.exports = {
       ).notEmpty().isInt();
 
       req.checkBody(
-        "title", "must be 2 or more characters in length."
-      ).isLength( { min: 2 } );
+        "title", "must be 5 or more characters in length."
+      ).isLength( { min: 5 } );
 
       req.checkBody(
         "body", "must be 10 or more characters in length."
