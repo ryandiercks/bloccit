@@ -1,3 +1,5 @@
+const request = require("request")
+const base = "http://localhost:3000/";
 const sequelize = require("../../src/db/models/index").sequelize;
 const User = require("../../src/db/models").User;
 
@@ -97,7 +99,7 @@ describe("User", () => {
   it("should create a new user with valid values and redirect", (done) => {
 
     const options = {
-      url: base,
+      url: base + "users",
       form: {
         email: "user@example.com",
         password: "123456789"
@@ -127,7 +129,7 @@ describe("User", () => {
   it("should not create a new user with invalid attributes and redirect", (done) => {
     request.post(
       {
-        url: base,
+        url: base + "/users",
         form: {
           email: "no",
           password: "123456789"
