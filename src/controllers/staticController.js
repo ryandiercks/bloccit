@@ -1,5 +1,11 @@
 module.exports = {
-  index(req, res, next){
-    res.render("static/index", {title: "Welcome to Bloccit"});
+
+  index( req, res, next ) {
+    res.render( "static/index" );
   }
-}
+  ,
+  about( req, res, next ) {
+    res.render( "static/about" );
+  }
+
+};

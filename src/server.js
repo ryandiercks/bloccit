@@ -1,24 +1,20 @@
- const app = require("./app");
- const http = require("http");
+const app = require( "./app.js" );
+const http = require( "http" );
 
- const port = normalizePort(process.env.PORT || "3000");
- app.set("port", port);
+const port = normalizePort( process.env.PORT || "3000" );
+app.set( "port", port );
 
- const server = http.createServer(app);
+const server = http.createServer( app );
+server.listen( port );
+server.on( "listening", () => {
+  console.log( `Server is listening for requests on port ${ server.address().port }.` );
+} );
 
- server.listen(port);
+function normalizePort( val ) {
+  const port = parseInt( val, 10 );
+  if ( isNaN( port ) ) { return val; }
+  if ( port >= 0 ) { return port; }
+  return false;
+}
 
- function normalizePort(val) {
-   const port = parseInt(val, 10);
-   if (isNaN(port)) {
-     return val;
-   }
-   if (port >= 0) {
-     return port;
-   }
-   return false;
- }
-
- server.on("listening", () => {
-   console.log(`server is listening for requests on port ${server.address().port}`);
- });
+module.exports = server;

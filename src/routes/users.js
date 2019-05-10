@@ -1,13 +1,16 @@
-const express = require("express");
+const express = require( "express" );
 const router = express.Router();
-const validation = require("./validation");
+const userController = require( "../controllers/userController.js" );
+const validation = require( "./validation.js" );
 
-const userController = require("../controllers/userController")
+const base = "/users";
 
-router.get("/users/sign_up", userController.signUp);
-router.post("/users", validation.validateUsers, userController.create);
-router.get("/users/sign_in", userController.signInForm);
-router.post("/users/sign_in", validation.validateUsers, userController.signIn);
- router.get("/users/sign_out", userController.signOut);
+router.get( `${ base }/sign_up`, userController.signUp );
+router.post( base,
+  validation.validateUsers, userController.create );
+router.get( `${ base }/sign_in`, userController.signInForm );
+router.post( `${ base }/sign_in`,
+  validation.validateUsers, userController.signIn );
+router.get( `${ base }/sign_out`, userController.signOut );
 
 module.exports = router;

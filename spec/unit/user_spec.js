@@ -1,154 +1,103 @@
-const request = require("request")
-const base = "http://localhost:3000/";
-const sequelize = require("../../src/db/models/index").sequelize;
-const User = require("../../src/db/models").User;
+const sequelize = require( "../../src/db/models/index.js" ).sequelize;
+const User = require( "../../src/db/models" ).User;
 
-describe("User", () => {
 
-  beforeEach((done) => {
-// #1
-    sequelize.sync({force: true})
-    .then(() => {
+describe( "User", () => {
+
+  const seeds = {
+    users: [ {
+      email: "user@example.com",
+      password: "1234567890"
+    }, {
+      email: "It's-a me, Mario!",
+      password: "1234567890"
+    }, {
+      email: "user@example.com",
+      password: "nananananananananananananananana BATMAN!"
+    } ]
+  };
+  /* END ----- seeds ----- */
+
+  beforeEach( ( done ) => {
+    sequelize.sync( { force: true } )
+    .then( () => { done(); } )
+    .catch( ( err ) => {
+      console.log( err );
       done();
-    })
-    .catch((err) => {
-      console.log(err);
-      done();
-    });
+    } );
+  } );
+  /* END ----- beforeEach() ----- */
 
-  });
 
-  describe("#create()", () => {
+  describe( ".create()", () => {
 
-// #2
-    it("should create a User object with a valid email and password", (done) => {
-      User.create({
-        email: "user@example.com",
-        password: "1234567890"
-      })
-      .then((user) => {
-        expect(user.email).toBe("user@example.com");
-        expect(user.id).toBe(1);
+    it( "should create User when supplied with " +
+        "valid email and password", ( done ) => {
+
+      const values = seeds.users[ 0 ]; // email: "user@example.com"
+
+      User.create( values )
+      .then( ( user ) => {
+        expect( user.email ).toBe( values.email ); // "user@example.com"
+        expect( user.password ).toBe( values.password ); // "1234567890"
+        expect( user.id ).toBe( 1 );
         done();
-      })
-      .catch((err) => {
-        console.log(err);
+      } )
+      .catch( ( err ) => {
+        console.log( err );
         done();
-      });
-    });
+      } );
+    } );
 
-// #3
-    it("should not create a user with invalid email or password", (done) => {
-      User.create({
-        email: "It's-a me, Mario!",
-        password: "1234567890"
-      })
-      .then((user) => {
 
-        // The code in this block will not be evaluated since the validation error
-        // will skip it. Instead, we'll catch the error in the catch block below
-        // and set the expectations there.
+    it( "should NOT create User when supplied with " +
+        "INVALID email or password", ( done ) => {
 
+      const values = seeds.users[ 1 ]; // email: "It's-a me, Mario!"
+
+      User.create( values )
+      .then( ( user ) => { // should never succeed, execute
         done();
-      })
-      .catch((err) => {
-// #4
-        expect(err.message).toContain("Validation error: must be a valid email");
+      } )
+      .catch( ( err ) => {
+        expect( err.message ).toContain( "Validation error" );
+        expect( err.message ).toContain( "must be a valid email address" );
         done();
-      });
-    });
+      } );
+    } );
 
-    it("should not create a user with an email already taken", (done) => {
 
-// #5
-      User.create({
-        email: "user@example.com",
-        password: "1234567890"
-      })
-      .then((user) => {
+    it( "should NOT create User when supplied with " +
+        "email already in use", ( done ) => {
 
-        User.create({
-          email: "user@example.com",
-          password: "nananananananananananananananana BATMAN!"
-        })
-        .then((user) => {
+      const valuesA = seeds.users[ 0 ]; // email: "user@example.com"
+      const valuesB = seeds.users[ 2 ]; // email: "user@example.com"
 
-          // the code in this block will not be evaluated since the validation error
-          // will skip it. Instead, we'll catch the error in the catch block below
-          // and set the expectations there
+      User.create( valuesA )
+      .then( ( userA ) => {
+        expect( userA ).not.toBeNull();
 
+        User.create( valuesB )
+        .then( ( userB ) => { // should never succeed, execute
           done();
-        })
-        .catch((err) => {
-          expect(err.message).toContain("Validation error");
+        } )
+        .catch( ( err ) => {
+          //console.log( err );
+          expect( err.message ).toContain( "Validation error" );
+          expect( err.errors[ 0 ].message ).toContain( "email must be unique" );
+          expect( err.original.detail ).toContain( valuesB.email );
+          expect( err.original.detail ).toContain( "already exists" );
           done();
-        });
-
+        } );
+      } )
+      .catch( ( err ) => {
+        console.log( err );
         done();
-      })
-      .catch((err) => {
-        console.log(err);
-        done();
-      });
-    });
+      } );
+    } );
 
-  });
-  describe("POST /users", () => {
+  } );
+  /* END ----- User.create() ----- */
 
-// #1
-  it("should create a new user with valid values and redirect", (done) => {
-
-    const options = {
-      url: base + "users",
-      form: {
-        email: "user@example.com",
-        password: "123456789"
-      }
-    }
-
-    request.post(options,
-      (err, res, body) => {
-
-// #2
-        User.findOne({where: {email: "user@example.com"}})
-        .then((user) => {
-          expect(user).not.toBeNull();
-          expect(user.email).toBe("user@example.com");
-          expect(user.id).toBe(1);
-          done();
-        })
-        .catch((err) => {
-          console.log(err);
-          done();
-        });
-      }
-    );
-  });
-
-// #3
-  it("should not create a new user with invalid attributes and redirect", (done) => {
-    request.post(
-      {
-        url: base + "/users",
-        form: {
-          email: "no",
-          password: "123456789"
-        }
-      },
-      (err, res, body) => {
-        User.findOne({where: {email: "no"}})
-        .then((user) => {
-          expect(user).toBeNull();
-          done();
-        })
-        .catch((err) => {
-          console.log(err);
-          done();
-        });
-      }
-    );
-  });
-
-});
-
-});
+} );
+/* END ----- User ----- */

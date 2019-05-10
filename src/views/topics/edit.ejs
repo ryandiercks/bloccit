@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <% include ../static/partials/head.ejs %>
   </head>
   <body>
     <% include ../static/partials/navbar.ejs %>
-
     <main class="container">
 
       <% include ../static/partials/messages.ejs %>
@@ -21,13 +20,12 @@
         <div class="form-group">
           <label for="description">Description</label>
           <textarea rows="4" class="form-control" name="description" aria-describedby="descriptionHelp" placeholder="Enter Description"><%= topic.description %></textarea>
-           <small class="text-muted" id="descriptionHelp">description must be 10 or more characters in length.</small>
+          <small class="text-muted" id="descriptionHelp">description must be 10 or more characters in length.</small>
         </div>
         <button type="submit" class="btn btn-primary">Update</button>
       </form>
+
     </main>
-
     <% include ../static/partials/baseScripts.ejs %>
-
   </body>
 </html>

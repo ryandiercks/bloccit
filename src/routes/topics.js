@@ -1,7 +1,8 @@
-const express = require("express");
+const express = require( "express" );
 const router = express.Router();
-const topicController = require("../controllers/topicController")
+const topicController = require( "../controllers/topicController.js" );
 const validation = require( "./validation.js" );
+
 const base = "/topics";
 
 router.get( base, topicController.index );
